@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block body %}
+<h2>username = {{user.full_name}}</h2>
+<h2>email = {{user.email}}</h2>
+<h2>{{user.phone_number}}</h2>
+<img src="{{user.profile.img.url}}" width="200px"/>
+<a href="#" class="btn btn-info">Edit</a>
+{% endblock %}
