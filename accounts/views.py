@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout, login, authenticate
 from django.views import View
 from django.contrib import messages
-from accounts.forms import UserLogInForm, UserRegisterForm, UserRegisterVerifyForm
+from accounts.forms import UserLogInForm, UserProfileEditForm, UserRegisterForm, UserRegisterVerifyForm
 from accounts.models import RGScode
 from .models import User
 
@@ -117,4 +117,21 @@ class UserProfileView(LoginRequiredMixin,View):
     template_name = "accounts/user_profile.html"
     def get(self,request):
         return render(request,self.template_name)
+
+class UserProfileEditView(LoginRequiredMixin,View):
+    form_class = UserProfileEditForm
+    template_name = "accounts/user_profile_edit.html"
+    def get(self,request):
+        return render(request,self.template_name,{"form":self.form_class(instance=request.user)})
+    def post(self,request):
+        form = self.form_class(request.POST,request.FILES,instance=request.user)
+        if form.is_valid():
+            cl = form.cleaned_data
+            user = form.save(commit=False)
+            user.profile.img = cl["img"]
+            user.profile.save()
+            user.save()
+            return redirect("accounts:user_profile")
+        return render(request,self.template_name,{"form":form})
+
 

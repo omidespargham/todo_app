@@ -4,11 +4,22 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         {% if user.is_authenticated %}
+        {% if user.is_admin %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'todo:show_todos' %}">AdminPage</a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'todo:show_todos' %}">Home</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'accounts:user_profile' %}">Profile</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'accounts:user_logout' %}">LogOut</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" style="right: 30px;position: absolute;">{{request.user.full_name}}</a>
         </li>
         {% else %}
         <li class="nav-item">
@@ -22,9 +33,7 @@
         </li>
         {% endif %}
 
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" style="right: 30px;position: absolute;">{{request.user.full_name}}</a>
-        </li>
+
 
       </ul>
     </div>

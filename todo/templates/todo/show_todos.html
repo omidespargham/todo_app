@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% block body %}
 <form action="" method="get" novalidate>
-    {{search_form}}
     <input type="submit" value="Search">
+    {{search_form}}
+    
 </form><br/>
-<form action="" method="get" novalidate>
-    {{filter_form}}
-</form>
+
 <a href="{% url 'todo:todo_add'  %}" class="btn btn-info">Add Todo</a>
 {% for todo in todos %}
 
@@ -14,6 +13,7 @@
     <h1>{{todo.title}}</h1>
     <h1> {{todo.user.full_name}}</h1>
     <h4>{{todo.created|timesince}}</h4>
+    <h4>{{todo.created}}</h4>
     <a href="{% url 'todo:todo_delete' todo.id %}" class="btn btn-danger">Delete</a>
     <a href="{% url 'todo:todo_edit' todo.id %}" class="btn btn-info">Edit</a>
 </div>

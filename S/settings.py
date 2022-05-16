@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'accounts.apps.AccountsConfig',
     'todo.apps.TodoConfig',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -55,7 +56,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'S.urls'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media' 
+MEDIA_ROOT = BASE_DIR / 'media'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -134,3 +136,12 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "accounts.authenticate.UserEmailAuthenticate"
 ]
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = "83226d95-0b55-4be8-a553-115c2fc70bab"
+AWS_SECRET_ACCESS_KEY = "f265a900bc32072cef32abe8f84504c696880c69bd3a9f0e8ebd50f3520a3c60"
+AWS_S3_ENDPOINT_URL = "https://s3.ir-thr-at1.arvanstorage.com"
+AWS_STORAGE_BUCKET_NAME = "omidfirstshop"
+AWS_SERVICE_NAME = "s3"
+AWS_S3_FILE_OVERWRITE = False
+AWS_LOCAL_STORAGE = f"{BASE_DIR}/aws/"

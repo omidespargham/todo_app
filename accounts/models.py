@@ -42,7 +42,9 @@ class RGScode(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    img = models.ImageField(null=True,blank=True,default="default/default.jpg")
+    img = models.ImageField(null=True,blank=True,default="default.jpg")
     
     def __str__(self):
         return f"{self.user}"
+
+

@@ -42,4 +42,4 @@ class MyUserAdmin(UserAdmin):
 admin.site.unregister(Group)
 
 admin.site.register(User, MyUserAdmin)
-admin.site.register(Profile)
+

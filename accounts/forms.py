@@ -27,7 +27,7 @@ class UserRegisterForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data["email"]
         try:
-            user = User.objects.get(email=email)
+            User.objects.get(email=email)
             raise forms.ValidationError("karbar ba in email voojood darad !")
         except User.DoesNotExist:
             return email
@@ -66,3 +66,12 @@ class UserChangeForm(forms.ModelForm):
         model = User
         fields = ["email", "phone_number",
                   "full_name", "password", "last_login"]
+
+# User profile Edit
+
+class UserProfileEditForm(forms.ModelForm):
+    img = forms.ImageField()
+    class Meta:
+        model = User
+        fields= ["email","phone_number","full_name"]
+        
