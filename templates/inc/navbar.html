@@ -6,7 +6,7 @@
         {% if user.is_authenticated %}
         {% if user.is_admin %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'todo:show_todos' %}">AdminPage</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'accounts:admin_show_user' %}">AdminPage</a>
         </li>
         {% endif %}
         <li class="nav-item">

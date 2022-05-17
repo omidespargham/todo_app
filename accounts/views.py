@@ -113,18 +113,24 @@ class UserLogOutView(LoginRequiredMixin, View):
         return redirect("core:home")
 # Create your views here.
 
-class UserProfileView(LoginRequiredMixin,View):
-    template_name = "accounts/user_profile.html"
-    def get(self,request):
-        return render(request,self.template_name)
 
-class UserProfileEditView(LoginRequiredMixin,View):
+class UserProfileView(LoginRequiredMixin, View):
+    template_name = "accounts/user_profile.html"
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class UserProfileEditView(LoginRequiredMixin, View):
     form_class = UserProfileEditForm
     template_name = "accounts/user_profile_edit.html"
-    def get(self,request):
-        return render(request,self.template_name,{"form":self.form_class(instance=request.user)})
-    def post(self,request):
-        form = self.form_class(request.POST,request.FILES,instance=request.user)
+
+    def get(self, request):
+        return render(request, self.template_name, {"form": self.form_class(instance=request.user)})
+
+    def post(self, request):
+        form = self.form_class(
+            request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             cl = form.cleaned_data
             user = form.save(commit=False)
@@ -132,6 +138,34 @@ class UserProfileEditView(LoginRequiredMixin,View):
             user.profile.save()
             user.save()
             return redirect("accounts:user_profile")
-        return render(request,self.template_name,{"form":form})
+        return render(request, self.template_name, {"form": form})
 
 
+class AdminShowUserView(LoginRequiredMixin, View):
+    template_name = "accounts/admin/show_users.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_admin:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect("accounts:user_profile")
+
+    def get(self, request):
+        users = User.objects.all()
+        return render(request, self.template_name, {"users": users})
+
+
+class AdminUserDeleteView(LoginRequiredMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_admin:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect("accounts:user_profile")
+
+    def get(self, request, user_id):
+        try:
+            user = User.objects.get(pk=user_id)
+            user.delete()
+            messages.success(request, " user delete shode !", "success")
+            return redirect("accounts:admin_show_user")
+        except User.DoesNotExist:
+            messages.error(request, " user delete shode !", "danger")
+            return redirect("accounts:admin_show_user")
