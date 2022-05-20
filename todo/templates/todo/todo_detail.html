@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block body %}
+    <h1>{{todo.title}}</h1>
+    <h1> {{todo.user.full_name}}</h1>
+    <h4>{{todo.created}}</h4>
+    <a href="{% url 'todo:todo_edit' todo.id %}" class="btn btn-info">Edit</a>
+    {% if todo.done %}
+        <a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-success">Done</a>
+    {% else%}
+        <a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-secondary">Done</a>
+    {% endif %}
+{% endblock %}

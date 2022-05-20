@@ -2,7 +2,32 @@
 {% block body %}
 <form action="" method="post" novalidate>
     {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="AddTodo">
+    Title: {{form.title}}
+<div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+    <label for="time_to_do">Time To Do:</label>{{form.time_to_do}}
+    
+    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+    </div><span> not required</span>
+</div>
+<input type="submit" value="AddTodo">
 </form>
+
+
+<script>
+  $(function () {
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+    });
+  });
+</script>
+
+<!-- <script>
+    $(function () {
+      $("#id_date").datetimepicker({
+        format: 'd/m/Y H:i',
+      });
+    });
+  </script> -->
+
 {% endblock %}

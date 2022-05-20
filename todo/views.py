@@ -1,7 +1,8 @@
+from datetime import datetime
 from django.shortcuts import redirect, render
 from django.views import View
 from django.contrib import messages
-from todo.forms import TodoAddForm, TodoSearchForm
+from todo.forms import TodoAddForm, TodoEditForm, TodoSearchForm
 from todo.models import Todo
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.text import slugify
@@ -16,28 +17,23 @@ class ShowTodos(LoginRequiredMixin, View):
         if not request.GET.get("search") == None:
             todos = todos.filter(title__contains=request.GET["search"])
 
-            todos_filter = Todo.todo_date_filter(request.GET.get("date"), todos)
-            if not todos_filter == None:
-                todos = todos_filter
+            filterd_todos = Todo.todo_date_and_done_filter(request.GET.get("date"),request.GET.get("done_status"), todos)
+            if not filterd_todos == None:
+                todos = filterd_todos
             search_form = self.form_class(request.GET)
             
         return render(request, self.template_name, {"todos": todos, "search_form": search_form})
 
-
-    # def get(self, request):
-    #     todos = Todo.objects.filter(user=request.user).order_by("-created")
-    #     filter_form = TodoDateFilterForm()
-    #     search_form = self.form_class
-    #     if request.GET.get("search"):
-    #         todos = todos.filter(title__contains=request.GET["search"])
-    #         search_form = self.form_class(request.GET)
-    #     todos_filter = Todo.todo_date_filter(request.GET.get("date"), todos)
-    #     if not todos_filter == None:
-    #         todos = todos_filter
-    #         filter_form = TodoDateFilterForm(request.GET)
-    #     return render(request, self.template_name, {"todos": todos, "search_form": search_form, "filter_form": filter_form})
-
-
+class TodoDetailView(LoginRequiredMixin,View):
+    template_name = "todo/todo_detail.html"
+    def get(self,request,todo_id):
+        try:
+            todo = Todo.objects.get(pk = todo_id)
+            return render(request,self.template_name,{"todo":todo})
+        except Todo.DoesNotExist:
+            messages.error(request,"todo voojood nadarad ! ")
+            return redirect("todo:show_todos")
+ 
 class TodoDeleteView(LoginRequiredMixin, View):
     def get(self, request, todo_id):
         try:
@@ -51,7 +47,7 @@ class TodoDeleteView(LoginRequiredMixin, View):
 
 
 class TodoEditView(LoginRequiredMixin, View):
-    form_class = TodoAddForm
+    form_class = TodoEditForm
     template_name = "todo/todo_edit.html"
     def get(self, request,todo_id):
         todo = Todo.objects.get(user=request.user, id=todo_id)
@@ -69,12 +65,17 @@ class TodoEditView(LoginRequiredMixin, View):
                 todo.title = cl["title"]
                 todo.save()
             messages.success(request, "todo update shod ! ", "success")
-            return redirect("todo:show_todos")
+            return redirect("todo:todo_detail",todo.id)
         except Todo.DoesNotExist:
             messages.error(request, "todo voojood nadarad ! ", "danger")
-            return redirect("todo:show_todos")
+            return redirect("todo:todo_detail",todo.id)
 
-
+class TodoDoneEditView(LoginRequiredMixin,View):
+    def get(self,request,todo_id):
+        todo = Todo.objects.get(pk=todo_id)
+        todo.done = not todo.done
+        todo.save()
+        return redirect("todo:todo_detail",todo.id)
 class TodoAddView(LoginRequiredMixin, View):
     template_name = "todo/todo_add.html"
     form_class = TodoAddForm
@@ -88,9 +89,10 @@ class TodoAddView(LoginRequiredMixin, View):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            title = form.cleaned_data["title"]
-            todo = Todo(title=title, user=request.user)
-            todo.slug = slugify(title[:30])
+            cl = form.cleaned_data
+            todo = Todo(title=cl["title"], user=request.user)
+            todo.slug = slugify(cl["title"][:30])
+            todo.time_to_do = cl["time_to_do"] if cl.get("time_to_do") else datetime.now()
             todo.save()
             messages.success(request, "todo sakhte shod ! ", "success")
             return redirect("todo:show_todos")

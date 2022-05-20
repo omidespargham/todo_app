@@ -9,13 +9,21 @@
 <a href="{% url 'todo:todo_add'  %}" class="btn btn-info">Add Todo</a>
 {% for todo in todos %}
 
-<div style="border: 2px solid blue;border-radius: 25px;padding: 10px;">
-    <h1>{{todo.title}}</h1>
-    <h1> {{todo.user.full_name}}</h1>
-    <h4>{{todo.created|timesince}}</h4>
-    <h4>{{todo.created}}</h4>
-    <a href="{% url 'todo:todo_delete' todo.id %}" class="btn btn-danger">Delete</a>
-    <a href="{% url 'todo:todo_edit' todo.id %}" class="btn btn-info">Edit</a>
-</div>
+<a href="{% url 'todo:todo_detail' todo.id %}">
+    <div style="border: 2px solid blue;border-radius: 25px;padding: 10px;">
+        <h1>{{todo.title}}</h1>
+        <h1> {{todo.user.full_name}}</h1>
+        <h4>{{todo.created|timesince}}</h4>
+        <h4>{{todo.created}}</h4>
+        <a href="{% url 'todo:todo_delete' todo.id %}" class="btn btn-danger">Delete</a>
+        {% if todo.done %}
+        <a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-success">Done</a>
+        {% else%}
+            <a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-secondary">Done</a>
+        {% endif %}
+    </div>
+</a>
+{% empty %}
+    <h2>let add some todos... !</h2>
 {% endfor %}
 {% endblock %}
