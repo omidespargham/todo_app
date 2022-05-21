@@ -16,23 +16,25 @@ class Todo(models.Model):
         return f"{self.user} - {self.title}"
     
 
-    def todo_date_and_done_filter(date_filter,done_filter,todos):
-        if done_filter == "0" and date_filter == "0":
-            return None
-        if done_filter == "1" :
+    # def todo_date_and_done_filter(date_filter,done_filter,search,todos):
+    def todo_date_and_done_filter(todos,date,done_status,search):
+        if done_status == "0" and date == "0" and not search:
+            return todos
+        todos = todos.filter(title__contains=search)
+        if done_status == "1" :
             todos = todos.filter(done=True)
-        if done_filter == "2" :
+        if done_status == "2" :
             todos = todos.filter(done=False)
         now = datetime.datetime.now(pytz.timezone('Asia/Tehran'))
         delta_today = datetime.timedelta(hours=now.hour,minutes=now.minute,seconds=now.second)
-        if date_filter == "1" :
+        if date == "1" :
             todos = todos.filter(created__gte=now - delta_today)
             
-        if date_filter == "2" :
+        if date == "2" :
             delta_yes = datetime.timedelta(days=1,hours=now.hour,minutes=now.minute,seconds=now.second)
             todos = todos.filter(created__range=(now - delta_yes,now - delta_today))
             
-        if date_filter == "3" :
+        if date == "3" :
             delta_week = datetime.timedelta(days=6,hours=now.hour,minutes=now.minute,seconds=now.second)
             todos = todos.filter(created__gte=now - delta_week)
         return todos

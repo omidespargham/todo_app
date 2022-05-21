@@ -11,17 +11,18 @@ from django.utils.text import slugify
 class ShowTodos(LoginRequiredMixin, View):
     template_name = "todo/show_todos.html"
     form_class = TodoSearchForm
+
     def get(self, request):
         todos = Todo.objects.filter(user=request.user).order_by("-created")
         search_form = self.form_class
         if not request.GET.get("search") == None:
-            todos = todos.filter(title__contains=request.GET["search"])
-
-            filterd_todos = Todo.todo_date_and_done_filter(request.GET.get("date"),request.GET.get("done_status"), todos)
-            if not filterd_todos == None:
-                todos = filterd_todos
-            search_form = self.form_class(request.GET)
-            
+            todo_filters = request.GET.dict()
+            request.session["filter"] = { "data":todo_filters }
+        elif not request.session.get("filter") == None:
+            todo_filters = request.session["filter"]["data"]
+        if todo_filters:
+            todos = Todo.todo_date_and_done_filter(todos,**todo_filters)
+            search_form = self.form_class(todo_filters)
         return render(request, self.template_name, {"todos": todos, "search_form": search_form})
 
 class TodoDetailView(LoginRequiredMixin,View):
