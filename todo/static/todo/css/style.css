@@ -1,0 +1,48 @@
+.todo_item{
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    color: dimgray;
+
+    position: relative;
+    justify-content: space-between;
+    flex-wrap : wrap;
+    transition: all ease 0.2s;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.25);
+}
+.todo_item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+  }
+.todo_flex_item_btns{
+    margin: auto 5px auto 0px;
+    align-self: center;
+}
+.todo_flex_item_texts{
+    margin: auto;
+    width: 600px;
+}
+.gray_color{
+    display: inline-block;
+    color: gray;
+    text-decoration: none;
+    margin: 0px;
+    padding: 2px 10px;
+}
+.todo_time{
+    font-size: 14px;
+}
+.todo_item{
+    padding-top: 4px;
+}
+.mybtn{
+    margin: auto;
+}
+.add_todo_btn{
+    direction: rtl;
+    margin: 0px 10px 15px 0px;
+}
+.add_todo_btn_a{
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}

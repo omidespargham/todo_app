@@ -1,8 +1,38 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'accounts/css/profile_style.css' %}">{% endblock %}
 {% block body %}
-<h2>username = {{user.full_name}}</h2>
-<h2>email = {{user.email}}</h2>
-<h2>{{user.phone_number}}</h2>
-<img src="{{user.profile.img.url}}" width="200px"/>
-<a href="{% url 'accounts:user_profile_edit' %}" class="btn btn-info">Edit</a>
+
+<div class="wrapper">
+    <div class="wrapper-border">
+        <div class="left">
+            <img src="{{user.profile.img.url}}" alt="user" width="200"/>
+            <h4>{{user.full_name}}</h4>
+            <!-- <p>UI Developer</p> -->
+        </div>
+        <div class="right">
+            <div class="info">
+                <h3>Information</h3>
+                <div class="info_data">
+                    <div class="data">
+                        <h4>Email</h4>
+                        <p>{{user.email}}</p>
+                    </div>
+                    <div class="data">
+                        <h4>Phone</h4>
+                        <p>{{user.phone_number}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="social_media">
+                <ul>
+                    <a href="{% url 'accounts:user_profile_edit' %}" class="btn btn-info">Edit</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

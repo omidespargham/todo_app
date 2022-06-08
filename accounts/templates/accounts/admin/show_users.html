@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
+{% block header%}
+{% endblock %}
 {% block body %}
 {% for user in users%}
-<h3 style="border: 1px solid blue;padding-bottom: 10px;" class="d-flex justify-content-between">
-    <span class="p-2">user :{{user.full_name}}</span>
-    <span class="p-2">email :{{user.email}}</span>
-    <span class="p-2">phone :{{user.phone_number}}</span>
+<h5 style="border: 1px solid blue;padding-bottom: 10px;" class="d-flex justify-content-between">
+    <span class="p-2">{{user.full_name}}</span>
+    <span class="p-2">{{user.email}}</span>
+    <span class="p-2">{{user.phone_number}}</span>
     <span class="p-2">is_active :{{user.is_active}}</span>
     <span class="p-2"><a href="{% url 'accounts:admin_delete_user' user.id %}" class="btn btn-danger">Delete</a></span>
-</h1>
+</h5>
+
+
 {% endfor %}
 {% endblock %}

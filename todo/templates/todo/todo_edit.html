@@ -1,8 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block header %}<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">{% endblock %}
 {% block body %}
-<form action="" method="post" novalidate>
+<!-- <form action="" method="post" novalidate>
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Edit">
-</form>
+</form> -->
+
+<div class="center">
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+
+      {{form.title.errors}}
+      <div class="txt_field">
+        {{form.title}}
+        <span></span>
+        <label>Title</label>
+      </div>
+      <input type="submit" value="Edit">
+    </form>
+  </div>
+
 {% endblock %}

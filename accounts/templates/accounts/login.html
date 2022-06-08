@@ -1,8 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block header %}<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">{% endblock %}
 {% block body %}
-<form action="" method="post" novalidate>
+<!-- <form action="" method="post" novalidate>
     {% csrf_token %}
     {{form.as_p}}
-    <input type="submit" value="login">
-</form>
+    <input type="submit" value="login"><span><a href="{% url 'accounts:reset_password' %}">forgot password ?</a></span>
+</form> -->
+
+<div class="center">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.email.errors}}
+      <div class="txt_field">
+        {{form.email}}
+        <span></span>
+        <label>Email</label>
+      </div>
+      {{form.password.errors}}
+      <div class="txt_field">
+        {{form.password}}
+        <span></span>
+        <label>Password</label>
+      </div>
+      <div class="pass"><a href="{% url 'accounts:reset_password' %}">Forgot Password?</a></div>
+      <input type="submit" value="Login">
+      <div class="signup_link">
+        Not a member? <a href="{% url 'accounts:user_register' %}">Register</a>
+      </div>
+    </form>
+  </div>
 {% endblock %}

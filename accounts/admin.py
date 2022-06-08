@@ -1,15 +1,15 @@
 from accounts.forms import UserChangeForm, UserCreationForm
 from django.contrib import admin
-from .models import Profile, RGScode, User
+from .models import Profile, User
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 
 
-class RGScodeAdmin(admin.ModelAdmin):
-    list_display = ("phone_number", "code", "created")
+# class RGScodeAdmin(admin.ModelAdmin):
+#     list_display = ("phone_number", "code", "created")
 
 
-admin.site.register(RGScode, RGScodeAdmin)
+# admin.site.register(RGScode, RGScodeAdmin)
 
 
 class MyUserProfileInline(admin.StackedInline):

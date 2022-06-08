@@ -70,7 +70,7 @@ class UserChangeForm(forms.ModelForm):
 # User profile Edit
 
 class UserProfileEditForm(forms.ModelForm):
-    img = forms.ImageField()
+    img = forms.ImageField(required=False)
     class Meta:
         model = User
         fields= ["email","phone_number","full_name"]

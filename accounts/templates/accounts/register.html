@@ -1,8 +1,38 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">{% endblock %}
 {% block body %}
-<form action="" method="post" novalidate>
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="register">
-</form>
+
+<div class="center">
+    <form action="" method="post" style="padding: 5px 40px 20px 40px ;" novalidate>
+        {% csrf_token %}
+        {{form.phone_number.errors}}
+        <div class="txt_field">
+            {{form.phone_number}}
+            <span></span>
+            <label>Phone Number</label>
+        </div>
+        {{form.email.errors}}
+        <div class="txt_field">
+            {{form.email}}
+            <span></span>
+            <label>Email</label>
+        </div>
+        {{form.full_name.errors}}
+        <div class="txt_field">
+            {{form.full_name}}
+            <span></span>
+            <label>Full Name</label>
+          </div>
+          {{form.password.errors}}
+        <div class="txt_field">
+            <!-- <input type="password" required> -->
+            {{form.password}}
+            <span></span>
+            <label>Password</label>
+        </div>
+        <input type="submit" value="Register">
+    </form>
+</div>
 {% endblock %}

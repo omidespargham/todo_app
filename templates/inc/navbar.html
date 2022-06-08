@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse center_nav" id="navbarNav" style="justify-content: center;">
+      <ul class="navbar-nav nav-container">
         {% if user.is_authenticated %}
         {% if user.is_admin %}
         <li class="nav-item">
@@ -19,12 +19,10 @@
           <a class="nav-link active" aria-current="page" href="{% url 'accounts:user_logout' %}">LogOut</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#" style="right: 30px;position: absolute;">{{request.user.full_name}}</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'todo:show_todos' %}" style="right: 30px;position: absolute;">{{request.user.full_name}}</a>
         </li>
         {% else %}
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'core:home' %}">Home</a>
-        </li>
+
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'accounts:user_register' %}">Register</a>
         </li>

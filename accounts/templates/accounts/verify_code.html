@@ -1,8 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">{% endblock %}
 {% block body %}
-<form action="" method="get" novalidate>
-    <!-- {% csrf_token %} -->
+<!-- <form action="" method="get" novalidate>
+    {% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="verify">
-</form>
+</form> -->
+
+<div class="center">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="txt_field">
+            {{form.code}}
+            <span></span>
+            <label>Verify Code</label>
+        </div>
+        <!-- <div class="pass">Forgot Password?</div> -->
+        <input type="submit" value="Register">
+    </form>
+</div>
 {% endblock %}

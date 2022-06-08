@@ -1,12 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'todo/css/profile_style.css' %}">{% endblock %}
 {% block body %}
-    <h1>{{todo.title}}</h1>
-    <h1> {{todo.user.full_name}}</h1>
-    <h4>{{todo.created}}</h4>
-    <a href="{% url 'todo:todo_edit' todo.id %}" class="btn btn-info">Edit</a>
-    {% if todo.done %}
-        <a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-success">Done</a>
-    {% else%}
-        <a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-secondary">Done</a>
-    {% endif %}
+<!-- <h1> todo title : {{todo.title}}</h1>
+<h1> user : {{todo.user.full_name}}</h1>
+<h4>time to do : {{todo.time_to_do}}</h4>
+<a href="{% url 'todo:todo_edit' todo.id %}" class="btn btn-info">Edit</a>
+{% if todo.done %}
+<a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-success">Done</a>
+{% else%}
+<a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-secondary">Done</a>
+{% endif %} -->
+
+<div class="wrapper">
+    <div class="wrapper-border">
+        <div class="right">
+            <div class="info">
+                <h3>todo detail</h3>
+                <div class="info_data">
+                    <div class="data">
+                        <h4>Title</h4>
+                        <p>{{todo.title}}</p>
+                    </div>
+                    <div class="data">
+                        <h4>Created</h4>
+                        <p>{{todo.created}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="social_media">
+                <ul>
+                    <a href="{% url 'todo:show_todos' %}" class="btn btn-secondary">Back</a>
+                    <a href="{% url 'todo:todo_edit' todo.id %}" class="btn btn-info">Edit</a>
+                    {% if todo.done %}
+                    <a href="{% url 'todo:todo_done_edit' todo.id todo.slug %}" class="btn btn-success">Done</a>
+                    {% else%}
+                    <a href="{% url 'todo:todo_done_edit' todo.id todo.slug %}" class="btn btn-secondary">Done</a>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

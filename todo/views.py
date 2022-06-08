@@ -15,6 +15,7 @@ class ShowTodos(LoginRequiredMixin, View):
     def get(self, request):
         todos = Todo.objects.filter(user=request.user).order_by("-created")
         search_form = self.form_class
+        todo_filters = None
         if not request.GET.get("search") == None:
             todo_filters = request.GET.dict()
             request.session["filter"] = { "data":todo_filters }
@@ -72,11 +73,13 @@ class TodoEditView(LoginRequiredMixin, View):
             return redirect("todo:todo_detail",todo.id)
 
 class TodoDoneEditView(LoginRequiredMixin,View):
-    def get(self,request,todo_id):
+    def get(self,request,todo_id,todo_slug=None):
         todo = Todo.objects.get(pk=todo_id)
         todo.done = not todo.done
         todo.save()
-        return redirect("todo:todo_detail",todo.id)
+        if todo_slug:
+            return redirect("todo:todo_detail",todo.id)
+        return redirect("todo:show_todos")
 class TodoAddView(LoginRequiredMixin, View):
     template_name = "todo/todo_add.html"
     form_class = TodoAddForm
