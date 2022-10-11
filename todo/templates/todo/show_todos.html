@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block header %}<link rel="stylesheet" href="{% static 'todo/css/style.css' %}">{% endblock %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'todo/css/style.css' %}">{% endblock %}
 {% block body %}
 <form action="" method="get" novalidate>
     <input type="submit" value="Search">
     {{search_form}}
 
-</form><br />
+</form><br/>
 
 <div class="add_todo_btn"><a href="{% url 'todo:todo_add'  %}" class="btn btn-info add_todo_btn_a">Add Todo</a></div>
 <div class="todo_container">
@@ -20,13 +21,19 @@
             </div>
             <div class="todo_flex_item_btns">
                 <div>
-                    <a href="{% url 'todo:todo_delete' todo.id %}" class="btn btn-danger  mybtn">Delete</a>
-                    {% if todo.done %}
-                    <a href="{% url 'todo:todo_done_edit' todo.id %}" class="btn btn-success  mybtn">Done</a>
-                    {% else %}
-                    <a href="{% url 'todo:todo_done_edit' todo.id %}"
-                        class="btn btn-secondary todo_flex_item mybtn">Done</a>
-                    {% endif %}
+                    <form id="my_form" action="{% url 'todo:todo_delete' todo.id %}" method="post">
+                        {% csrf_token %}
+                        <!-- <a href="#" class="btn btn-danger  mybtn"
+                            onclick="document.getElementById('my_form').submit();">Delete</a> -->
+                        <button class="btn btn-danger  mybtn" type="submit">Delete</button>
+                        {% if todo.done %}
+                        <a href="#" class="btn btn-success  mybtn"
+                            onclick="document.getElementById('my_form').submit();">Done</a>
+                        {% else %}
+                        <a href="#" class="btn btn-secondary todo_flex_item mybtn"
+                            onclick="document.getElementById('my_form').submit();">Done</a>
+                        {% endif %}
+                    </form>
                 </div>
             </div>
         </div>

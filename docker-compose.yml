@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: app
+    restart: "always"
+    command: >
+      sh -c " python manage.py makemigrations --no-input &&
+              python manage.py migrate --no-input &&
+              python manage.py collectstatic --no-input --clear &&
+              gunicorn TodoConfig.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - my_static_file:/myproject/static
+      - my_static_file:/myproject/media
+    depends_on:
+      - database
+    environment:
+      - DEBUG=False
+      - ALLOWED_HOSTS=*
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=database
+      - DATABASE_PORT=5432
+  nginx:
+    image: nginx:latest
+    container_name: mynginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./dockerfiles/nginx:/etc/nginx/conf.d
+      - my_static_file:/var/www/static
+      - my_media_file:/var/www/media
+
+  database:
+    image: postgres
+    container_name: mydb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    restart: "always"
+volumes:
+  my_static_file:
+  my_media_file:

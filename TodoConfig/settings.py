@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-kd^03k^_1fk$+02qxz(*r#iti%uh$6j57!xj2^!iougfr9i5k-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'TodoConfig.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("DATABASE_NAME","postgres"),
+        'USER': os.environ.get("DATABASE_USER","postgres"),
+        'HOST': os.environ.get("DATABASE_HOST","database"),
+        'PASSWORD': os.environ.get("DATABASE_PASSWORD","postgres"),
+        'PORT': os.environ.get("DATABASE_PORT","5432"),
     }
 }
 
@@ -123,10 +128,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "static/"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# docker error 
+# app      | ERRORS:
+# app      | ?: (staticfiles.E002) The STATICFILES_DIRS setting should not contain the STATIC_ROOT setting.
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -161,3 +171,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = "uevvhqvxppegpyqv"
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'todo app'
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1','http://localhost']

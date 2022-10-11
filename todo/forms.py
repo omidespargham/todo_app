@@ -1,9 +1,11 @@
 
 from django import forms
 
-
+def_errors = {
+    "required": "این فیلد نمیتواند خالی باشد"
+}
 class TodoAddForm(forms.Form):
-    title = forms.CharField(max_length=200)
+    title = forms.CharField(max_length=200,error_messages=def_errors)
     time_to_do = forms.DateTimeField(
                 input_formats=['%d/%m/%Y %H:%M'],
         widget=forms.DateTimeInput(attrs={
