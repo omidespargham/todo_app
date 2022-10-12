@@ -13,7 +13,7 @@ class Todo(models.Model):
     time_to_do = models.DateTimeField(null=True,blank=True)
 
     def __str__(self) -> str:
-        return f"{self.user} - {self.title}"
+        return f"({self.user} - {self.title})"
     
 
     # def todo_date_and_done_filter(date_filter,done_filter,search,todos):

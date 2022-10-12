@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">{% endblock %}
+{% block body %}
+<!-- <form action="" method="post" novalidate>
+  {% csrf_token %}
+  Title: {{form.title}}
+  <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+    <label for="time_to_do">Time To Do:</label>{{form.time_to_do}}
+
+    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+    </div><span> not required</span>
+  </div>
+  <input type="submit" value="AddTodo">
+</form> -->
+
+<div class="center">
+  <form action="" method="get" novalidate>
+    {% csrf_token %}
+    <button type="submit">Delete {{ object }}</button>
+  </form>
+</div>
+
+
+
+<!-- <script>
+    $(function () {
+      $("#id_date").datetimepicker({
+        format: 'd/m/Y H:i',
+      });
+    });
+  </script> -->
+
+{% endblock %}
